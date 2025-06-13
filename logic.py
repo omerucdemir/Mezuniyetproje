@@ -1,9 +1,10 @@
-from discord import ui, ButtonStyle
+from discord import ButtonStyle
+from discord.ui import Button
 
 class Question:
     def __init__(self, text, answer_id, *options):
         self.__text = text
-        self.__answer_id = answer_id
+        
         self.options = options
 
     @property
@@ -11,20 +12,30 @@ class Question:
         return self.__text 
 
     def gen_buttons(self):
-        # Görev 3 - Satır içi klavyeyi oluşturmak için bir yöntem oluşturun
+        """Satır içi klavye oluşturur."""
         buttons = []
         for i, option in enumerate(self.options):
-            if i == self.__answer_id:
-                buttons.append(ui.Button(label=option, style=ButtonStyle.primary, custom_id=f'sayısal_{i}'))
-            else:
-                buttons.append(ui.Button(label=option, style=ButtonStyle.primary, custom_id=f'wrong_{i}'))
-    
+            custom = f'choice_{i}'
+            style = ButtonStyle.primary
+            button = Button(label=option, style=style, custom_id=custom)
+            buttons.append(button)
         return buttons
 
 # Görev 4 - Listeyi sorularınızla doldurun
-quiz_questions = [
-   Question("Hangi türe yöneliklisin", 1, "Sayısal", "Sözel"),
-   Question("Kediler sevgilerini nasıl ifade ederler?", 0, "Yüksek sesle mırıldanırlar", "Sevimli fotoğraflar", "Havlar"),
+# Ana ve dal soru setleri:
+quiz_branches = {
+    "sayısal": [
+        Question("Sayısal 1. soru?", 0, "A", "B"),
+        Question("Sayısal 2. soru?", 0, "C", "D"),
+    ],
+    "sözel": [
+        Question("Yazmayı ve okumayı sever misin?", 0, "Evet", "Hayır"),
+        Question("Öğretmek mi Öğrenmek mi?", 0, "Öğrenmek", "Öğretmek"),
+    ],
+}
+
+root_questions = [
+    Question("Hangi türe yönelisin?", 0, "Sayısal", "Sözel"),
 ]
 
 
